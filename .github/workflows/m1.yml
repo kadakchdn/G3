@@ -1,0 +1,37 @@
+name: Build and Run Tests on Push
+
+on:  
+  push:  
+    branches:  
+      - "**"
+
+jobs:
+  build-and-run-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4  
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'  
+          java-version: '17'
+
+      - name: Cache Maven Dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            maven-
+
+      - name: Debug Maven Dependencies
+        run: mvn dependency:tree
+
+      - name: Clean & Rebuild Maven Dependencies
+        run: mvn clean package -U -DskipTests=true  # Force update dependencies
+
+      - name: Execute Tests
+        run: java -jar target/your-test-suite.jar  # Update this to match your JAR file
