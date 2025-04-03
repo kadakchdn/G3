@@ -1,0 +1,24 @@
+name: Run Tests on Push
+
+on:  
+  push:  
+    branches:  
+      - "**"  # Runs on any branch push
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest  # Change to windows-latest or macos-latest if needed
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4  
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'  # OpenJDK distribution
+          java-version: '17'  # Adjust if needed
+
+      - name: Execute Tests
+        run: |
+          java -jar your-test-suite.jar  # Change to your actual JAR file name
