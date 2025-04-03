@@ -1,0 +1,30 @@
+name: Build and Run Tests on Push
+
+on:  
+  push:  
+    branches:  
+      - "**"  # Runs on any branch push
+
+jobs:
+  build-and-run-tests:
+    runs-on: ubuntu-latest  # Change to windows-latest or macos-latest if needed
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4  
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'  
+          java-version: '17'  # Adjust based on your project
+
+      - name: Build Project (Maven)
+        run: mvn clean package -DskipTests=true  # If using Maven
+
+      # - name: Build Project (Gradle)  # Uncomment this if using Gradle instead of Maven
+      #   run: ./gradlew build -x test  
+
+      - name: Execute Tests
+        run: |
+          java -jar target/your-test-suite.jar  # Update path based on build output
