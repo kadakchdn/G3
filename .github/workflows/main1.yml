@@ -18,6 +18,10 @@ jobs:
         with:
           distribution: 'temurin'  # OpenJDK distribution
           java-version: '17'  # Adjust if needed
+          
+     - name: Build Project (Maven)
+      run: mvn clean package -DskipTests=true  # If using Maven
+
 
       - name: Execute Tests
         run: |
